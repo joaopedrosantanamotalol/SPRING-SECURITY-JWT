@@ -26,13 +26,7 @@ src/main/java/com/seuprojeto/
 │   └── SecurityConfig.java          # Configuração Spring Security
 │
 ├── config/
-│   └── PasswordConfig.java          # Bean BCryptPasswordEncoder
-│
-└── dto/
-    ├── NoteDTO.java                 # Dados para criar nota
-    ├── LoginDTO.java                # Dados do login
-    ├── RegisterDTO.java             # Dados do registro
-    └── AuthResponse.java            # Resposta do login (token)
+│   └── PasswordConfig.java          #
 
 ```
 Dependências Principais
