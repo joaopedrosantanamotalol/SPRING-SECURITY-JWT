@@ -1,5 +1,6 @@
 package com.example.funciona.service;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
@@ -9,19 +10,26 @@ import java.util.Date;
 @Service
 public class JwtService {
 
-    private final String SECRET = "minha-chave-super-secreta-minimo-32";
+    private final String secret;
+    private final long expiration;
+
+    public JwtService(@Value("${jwt.secret}") String secret,
+                      @Value("${jwt.expiration}") long expiration) {
+        this.secret = secret;
+        this.expiration = expiration;
+    }
 
     public String generateToken(String email) {
         return Jwts.builder()
                 .setSubject(email)
-                .setExpiration(new Date(System.currentTimeMillis() + 86400000)) // 1 dia
-                .signWith(Keys.hmacShaKeyFor(SECRET.getBytes()))
+                .setExpiration(new Date(System.currentTimeMillis() + expiration))
+                .signWith(Keys.hmacShaKeyFor(secret.getBytes()))
                 .compact();
     }
 
     public String extractEmail(String token) {
         return Jwts.parserBuilder()
-                .setSigningKey(SECRET.getBytes())
+                .setSigningKey(secret.getBytes())
                 .build()
                 .parseClaimsJws(token)
                 .getBody()
@@ -31,9 +39,9 @@ public class JwtService {
     public boolean isTokenValid(String token) {
         try {
             Jwts.parserBuilder()
-                    .setSigningKey(SECRET.getBytes())
+                    .setSigningKey(secret.getBytes())
                     .build()
-                    .parseClaimsJws(token); // lança exceção se inválido
+                    .parseClaimsJws(token);
             return true;
         } catch (JwtException | IllegalArgumentException e) {
             return false;
