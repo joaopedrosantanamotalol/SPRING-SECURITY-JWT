@@ -42,6 +42,17 @@ public String login(String email, String senha, HttpServletResponse response, Mo
         return "login";
     }
 }
+@GetMapping("/logout")
+public String logout(HttpServletResponse response) {
+    // Cria um cookie vazio com mesmo nome, com expiração imediata
+    Cookie cookie = new Cookie("token", null);
+    cookie.setPath("/");
+    cookie.setHttpOnly(true);
+    cookie.setMaxAge(0); // expira imediatamente
+    response.addCookie(cookie);
+
+    return "redirect:/login"; // manda de volta pro login
+}
 
     @GetMapping("/register")
     public String registerPage() {
