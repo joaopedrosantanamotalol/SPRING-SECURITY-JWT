@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Minhas Notas</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<div class="container">
+    <h1>Minhas Notas</h1>
+
+    <form method="post" action="/notes">
+        <input type="text" name="titulo" placeholder="Título" required/>
+        <textarea name="conteudo" placeholder="Conteúdo" required></textarea>
+        <button type="submit">Criar Nota</button>
+    </form>
+
+    <ul>
+        <li th:each="note : ${notes}">
+            <h3 th:text="${note.titulo}"></h3>
+            <p th:text="${note.conteudo}"></p>
+        </li>
+    </ul>
+</div>
+</body>
+</html>
